@@ -1,39 +1,44 @@
 import yql
+import json
+import os
+import time
+import datetime
 import cryptowatch as cpt
 import viabtc as via
 import bitfinex as finex
 import bitflyer as bf
 
+time = int(time.mktime(datetime.datetime.now().timetuple()))
 usdjpy = yql.getUSDJPY()
-print "USDJPY    : %.2f" % (usdjpy)
-
 cnyjpy = yql.getCNYJPY()
-print "CNYJPY    : %.2f" % (cnyjpy)
-
-#btcusd = cpt.getPrice("bitfinex", "btcusd");
-btcusd = finex.getPrice("btcusd");
-print "BTCUSD"
-print " Bitfinex : %.1f" % (btcusd)
-
-#btcjpy = cpt.getPrice("bitflyer", "btcjpy");
-btcjpy = bf.getPrice("BTC_JPY");
-print "BTCJPY"
-print " Bitfinex : %.1f" % (btcusd * usdjpy)
-print " Bitflyer : %.1f" % (btcjpy)
-print " (Diff    : %.1f)" % (btcjpy - btcusd*usdjpy)
-
-#btcfxjpy = cpt.getPrice("bitflyer", "btcfxjpy");
-btcfxjpy = bf.getPrice("FX_BTC_JPY");
-print "BTCFXJPY"
-print " Bitflyer : %.1f" % (btcfxjpy)
-
+btcusd = finex.getPrice("btcusd")
+btcjpy = bf.getPrice("BTC_JPY")
+btcfxjpy = bf.getPrice("FX_BTC_JPY")
 bcccny = via.getPrice("bcccny")
-print "BCCCNY"
-print " ViaBTC   : %.1f" % (bcccny)
-print "BCCJPY"
-print " ViaBTC   : %.1f" % (bcccny * cnyjpy)
 
-#allowance = cpt.loadAllowance()
-#remain = float(allowance["remaining"]) / 1000000000.0
-#print "---"
-#print "cryptowatch %.3f sec" % remain
+data = {
+        "Time": time,
+        "USDJPY": usdjpy,
+        "CNYJPY": cnyjpy,
+        "BTCUSD": {
+            "Bitfinex": btcusd
+            },
+        "BTCJPY": {
+            "Bitflyer": btcjpy
+            },
+        "BTCFXJPY": {
+            "Bitflyer": btcfxjpy
+            },
+        "BCCCNY": {
+            "ViaBTC": bcccny
+            }
+        }
+
+path = os.path.abspath(os.path.dirname(__file__))
+try:
+    f = open(path + '/.data', 'w')
+except:
+    pass
+else:
+    f.write(json.dumps(data))
+    f.close()

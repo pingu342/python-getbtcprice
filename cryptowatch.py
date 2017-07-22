@@ -26,7 +26,7 @@ def loadAllowance():
             "remaining": 2000000000
             }
     else:
-        allowance = json.load(f);
+        allowance = json.load(f)
         f.close()
     return allowance
 

@@ -6,7 +6,11 @@ Display the current price of Bitcoin on the macOS desktop.
 ![Sample](sample.png)
 
 ## How to use
+
+	$ python check.py
+	$ python show.py
+
 Install GeekTool which can customize the desktop.
 
-Please add Geeklet(shell) and set check.py to run periodically.
+Please add Geeklet(shell) and set above python scritps to run periodically.
 
