@@ -11,14 +11,21 @@ import okcoin_usd as ok_usd
 import okcoin_cny as ok_cny
 
 time = int(time.mktime(datetime.datetime.now().timetuple()))
+print "checking usdjpy ..."
 usdjpy = yql.getUSDJPY()
+print "checking cnyjpy ..."
 cnyjpy = yql.getCNYJPY()
+print "checking bitfinex ..."
 btcusd_bitfinex = finex.getPrice("btcusd")
+print "checking okcoin ..."
 btcusd_okcoin_usd = ok_usd.getPrice("btc_usd")
 btccny_okcoin_cny = ok_cny.getPrice("btc_cny")
+print "checking bitflyer ..."
 btcjpy_bitflyer = bf.getPrice("BTC_JPY")
 btcfxjpy = bf.getPrice("FX_BTC_JPY")
+print "checking viabtc ..."
 bcccny = via.getPrice("bcccny")
+print "\f"
 
 data = {
         "Time": time,

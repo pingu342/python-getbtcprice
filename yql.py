@@ -14,13 +14,16 @@ def getPrice(pair):
             "env": "store://datatables.org/alltableswithkeys"
             }
     url += "?" + urllib.urlencode(params)
-    res = urllib.urlopen(url)
 
-    result = json.loads(res.read().decode('utf-8'))
-    #pprint(result)
+    try:
+        res = urllib.urlopen(url, timeout=5)
+        result = json.loads(res.read().decode('utf-8'))
+        #pprint(result)
+        return float(result["query"]["results"]["rate"]["Rate"])
+    except Exception as e:
+        pass
 
-    return float(result["query"]["results"]["rate"]["Rate"])
-
+    return 0.0
 
 def getUSDJPY():
     return getPrice("USDJPY")
