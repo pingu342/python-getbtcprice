@@ -10,11 +10,24 @@ import bitflyer as bf
 import okcoin_usd as ok_usd
 import okcoin_cny as ok_cny
 
+path = os.path.abspath(os.path.dirname(__file__))
+try:
+    f = open(path + '/.data', 'r')
+except:
+    data = None
+else:
+    data = json.load(f)
+    f.close()
+
 time = int(time.mktime(datetime.datetime.now().timetuple()))
 print "checking usdjpy ..."
 usdjpy = yql.getUSDJPY()
+if data is not None and usdjpy == 0.0:
+    usdjpy = data['USDJPY']
 print "checking cnyjpy ..."
 cnyjpy = yql.getCNYJPY()
+if data is not None and cnyjpy == 0.0:
+    cnyjpy = data['CNYJPY']
 print "checking bitfinex ..."
 btcusd_bitfinex = finex.getPrice("btcusd")
 print "checking okcoin ..."
